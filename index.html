@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en" data-t="cobalt" data-m="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Qvise · UIHP Pitch 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── THEMES ── */
+[data-t="cobalt"][data-m="light"]{--bg:#EDF1FF;--surf:#FFFFFF;--surf2:#EEF2FF;--p:#1E3DD4;--p2:#4B67E8;--pb:#DCE5FF;--acc:#00B4D8;--tx:#08113A;--tx2:#2A3C88;--tx3:#6878B8;--bd:#BCC9EE;--hi:#1E3DD4;--cbt:#FFFFFF;--shadow:rgba(30,61,212,.12);--ok:#0A7A42}
+[data-t="cobalt"][data-m="dark"]{--bg:#050C22;--surf:#0B1636;--surf2:#101E48;--p:#4E6EF5;--p2:#6A84F8;--pb:#182060;--acc:#00CCFF;--tx:#DDE6FF;--tx2:#8EA6DC;--tx3:#4A62A0;--bd:#182060;--hi:#6A84F8;--cbt:#050C22;--shadow:rgba(78,110,245,.2);--ok:#22D470}
+[data-t="ember"][data-m="light"]{--bg:#FFF5EC;--surf:#FFFFFF;--surf2:#FFF1E5;--p:#C04808;--p2:#D86022;--pb:#FFDFC8;--acc:#F5A520;--tx:#230D04;--tx2:#6E3214;--tx3:#A66848;--bd:#E6B8A0;--hi:#C04808;--cbt:#FFFFFF;--shadow:rgba(192,72,8,.12);--ok:#0A7A42}
+[data-t="ember"][data-m="dark"]{--bg:#120600;--surf:#1E0C00;--surf2:#2B1400;--p:#E46820;--p2:#F07C38;--pb:#321200;--acc:#FFA830;--tx:#FFE4C8;--tx2:#C88A66;--tx3:#86583C;--bd:#3A1A08;--hi:#F07C38;--cbt:#120600;--shadow:rgba(228,104,32,.2);--ok:#22D470}
+[data-t="sage"][data-m="light"]{--bg:#EDF9F2;--surf:#FFFFFF;--surf2:#E3F5EA;--p:#166534;--p2:#1E8844;--pb:#CEF0DC;--acc:#2ED484;--tx:#071810;--tx2:#224E3A;--tx3:#5C8C6A;--bd:#A6D6B4;--hi:#166534;--cbt:#FFFFFF;--shadow:rgba(22,101,52,.12);--ok:#0A6432}
+[data-t="sage"][data-m="dark"]{--bg:#020B05;--surf:#071408;--surf2:#0B220F;--p:#24CC6E;--p2:#3EDE84;--pb:#092214;--acc:#56FFA8;--tx:#CAEEDD;--tx2:#6EC28E;--tx3:#36705A;--bd:#0C3018;--hi:#3EDE84;--cbt:#020B05;--shadow:rgba(36,204,110,.2);--ok:#3EDE84}
+[data-t="void"][data-m="light"]{--bg:#F4F4F0;--surf:#FFFFFF;--surf2:#EBEBEA;--p:#141414;--p2:#363636;--pb:#DEDED8;--acc:#B8B800;--tx:#060606;--tx2:#3C3C3C;--tx3:#7A7A7A;--bd:#C0C0BC;--hi:#141414;--cbt:#F4F4F0;--shadow:rgba(0,0,0,.12);--ok:#1A6E38}
+[data-t="void"][data-m="dark"]{--bg:#060606;--surf:#101010;--surf2:#1A1A1A;--p:#D6D6D6;--p2:#B4B4B4;--pb:#1E1E1E;--acc:#D8D800;--tx:#EEEEEE;--tx2:#9C9C9C;--tx3:#5A5A5A;--bd:#262626;--hi:#D6D6D6;--cbt:#060606;--shadow:rgba(255,255,255,.08);--ok:#22D470}
+[data-t="violet"][data-m="light"]{--bg:#F4EDFF;--surf:#FFFFFF;--surf2:#EDE3FF;--p:#601EC8;--p2:#7E3AE0;--pb:#DECEFF;--acc:#FF58B0;--tx:#150628;--tx2:#4A1C8E;--tx3:#825EB2;--bd:#BEAAEE;--hi:#601EC8;--cbt:#FFFFFF;--shadow:rgba(96,30,200,.12);--ok:#0A7A42}
+[data-t="violet"][data-m="dark"]{--bg:#080214;--surf:#11081E;--surf2:#190F2C;--p:#9A4EF6;--p2:#AE6AFF;--pb:#200A42;--acc:#FF6EC0;--tx:#E6D2FF;--tx2:#A676E2;--tx3:#64409A;--bd:#220C40;--hi:#AE6AFF;--cbt:#080214;--shadow:rgba(154,78,246,.2);--ok:#22D470}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);transition:background .4s,color .4s}
+
+/* ── LAYOUT ── */
+.deck{position:fixed;inset:0;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:76px 72px 104px;opacity:0;pointer-events:none;transition:opacity .48s cubic-bezier(.4,0,.2,1),transform .48s cubic-bezier(.4,0,.2,1);transform:translateY(24px)}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0)}
+.slide.out-up{opacity:0;transform:translateY(-24px)}
+
+/* ── PROGRESS BAR ── */
+#pbar{position:fixed;top:0;left:0;height:3px;background:var(--p);border-radius:0 3px 3px 0;transition:width .45s ease,background .4s;z-index:300}
+
+/* ── CONTROLS ── */
+.ctrls{position:fixed;top:14px;right:20px;z-index:200;display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.tbtn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--tx2);transition:all .2s;white-space:nowrap}
+.tdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tbtn:hover{border-color:var(--p);color:var(--tx)}
+.tbtn.on{background:var(--pb);border-color:var(--p);color:var(--p)}
+.mtog{display:flex;align-items:center;gap:7px;padding:5px 12px;border-radius:100px;border:1.5px solid var(--bd);background:var(--surf);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--tx2);user-select:none;transition:all .2s}
+.mtr{width:28px;height:16px;border-radius:100px;background:var(--pb);border:1.5px solid var(--bd);position:relative;flex-shrink:0;transition:background .25s}
+.mth{position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--tx3);transition:left .25s,background .25s}
+[data-m="dark"] .mth{left:14px;background:var(--p)}
+
+/* ── NAV ── */
+.nav-bar{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:200;display:flex;align-items:center;gap:12px;background:var(--surf);border:1.5px solid var(--bd);border-radius:100px;padding:7px 16px;transition:background .4s,border-color .4s}
+.nbtn{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bd);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.nbtn:hover{border-color:var(--p);background:var(--pb)}
+.nbtn svg{width:11px;height:11px;fill:none;stroke:var(--tx2);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.dots{display:flex;gap:5px;align-items:center}
+.ndot{width:6px;height:6px;border-radius:50%;background:var(--bd);cursor:pointer;transition:all .22s;flex-shrink:0}
+.ndot.on{background:var(--p);width:20px;border-radius:3px}
+.slbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--tx3);min-width:38px;text-align:center}
+
+/* ── SLIDE TAG ── */
+.stag{position:absolute;top:20px;left:26px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:2px}
+
+/* ── COMMON COMPONENTS ── */
+.card{background:var(--surf);border:1.5px solid var(--bd);border-radius:18px;padding:22px 24px;transition:background .4s,border-color .4s}
+.card-sm{background:var(--surf);border:1px solid var(--bd);border-radius:13px;padding:14px 16px;transition:background .4s,border-color .4s}
+.card-accent{background:var(--pb);border:1.5px solid var(--p);border-radius:18px;padding:22px 24px;transition:all .4s}
+.label{font-size:10px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:1.8px;margin-bottom:8px;font-family:'Space Mono',monospace;transition:color .4s}
+.tag{display:inline-flex;align-items:center;background:var(--pb);color:var(--p);font-size:11px;font-weight:600;padding:3px 11px;border-radius:100px;transition:all .4s}
+.s-title{font-family:'Syne',sans-serif;font-weight:800;font-size:44px;color:var(--tx);line-height:1.08;letter-spacing:-1.5px}
+.s-title span{color:var(--p);transition:color .4s}
+.s-body{font-size:15px;color:var(--tx2);line-height:1.72;font-weight:400}
+.h-num{font-family:'Syne',sans-serif;font-weight:800;font-size:84px;color:var(--hi);line-height:1;letter-spacing:-3px;transition:color .4s}
+.check{color:var(--p);font-weight:700;font-size:15px}
+.cross{color:var(--tx3);opacity:.55;font-size:13px}
+.partial{font-size:11px;color:var(--acc);font-weight:600}
+
+/* ── SLIDE 1: COVER ── */
+.s1{display:grid;grid-template-columns:1fr 380px;gap:64px;align-items:center;width:100%;max-width:1200px}
+.s1-kicker{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.s1-mark-badge{width:28px;height:28px;border-radius:8px;background:var(--pb);display:flex;align-items:center;justify-content:center;transition:background .4s}
+.s1-mark-badge svg{width:18px;height:18px}
+.s1-brand{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--p);letter-spacing:2px;text-transform:uppercase;transition:color .4s}
+.s1-headline{font-family:'Syne',sans-serif;font-weight:800;font-size:62px;color:var(--tx);letter-spacing:-2.5px;line-height:1.02;margin-bottom:18px}
+.s1-headline span{color:var(--p);transition:color .4s}
+.s1-sub{font-size:17px;color:var(--tx2);font-weight:300;line-height:1.65;max-width:500px;margin-bottom:32px}
+.s1-pills{display:flex;gap:8px;flex-wrap:wrap}
+.s1-pill{background:var(--surf);border:1px solid var(--bd);border-radius:100px;padding:6px 14px;font-size:12px;color:var(--tx2);font-weight:500;transition:all .4s}
+.s1-right{display:flex;align-items:center;justify-content:center}
+#cover-mark{width:340px;height:340px}
+
+/* ── SLIDE 2: PROBLEM ── */
+.s2{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%;max-width:1200px}
+.curve-wrap{margin:20px 0 24px}
+.prob-cards{display:flex;flex-direction:column;gap:14px}
+.prob-row{display:flex;align-items:flex-start;gap:14px}
+.prob-n{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--p);background:var(--pb);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--p);transition:all .4s}
+.prob-title{font-size:15px;font-weight:600;color:var(--tx);margin-bottom:4px}
+.prob-body{font-size:13px;color:var(--tx2);line-height:1.62}
+
+/* ── SLIDE 3: SOLUTION ── */
+.s3{display:flex;flex-direction:column;gap:30px;width:100%;max-width:1200px}
+.s3-header{text-align:center}
+.s3-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.s3-card{display:flex;flex-direction:column;gap:14px;height:100%}
+.s3-icon{width:48px;height:48px;border-radius:14px;background:var(--pb);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .4s}
+.s3-icon svg{width:24px;height:24px;fill:none;stroke:var(--p);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.s3-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--tx)}
+.s3-body{font-size:13px;color:var(--tx2);line-height:1.7;flex:1}
+.s3-quote{font-size:12px;color:var(--p);font-style:italic;margin-top:6px;transition:color .4s}
+
+/* ── SLIDE 4: PRODUCT ── */
+.s4{display:flex;flex-direction:column;gap:32px;width:100%;max-width:1100px}
+.s4-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.s4-step{padding:24px 20px;border-top:2px solid var(--bd);position:relative;transition:border-color .4s}
+.s4-step::after{content:'';position:absolute;top:-2px;left:0;width:0;height:2px;background:var(--p);transition:width .6s ease}
+.s4-step.loaded::after{width:100%}
+.s4-step:nth-child(1){border-top-color:var(--p);background:transparent}
+.step-n{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;color:var(--p);background:var(--pb);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:14px;transition:all .4s}
+.step-icon{width:40px;height:40px;border-radius:11px;background:var(--surf2);display:flex;align-items:center;justify-content:center;margin-bottom:12px;transition:background .4s}
+.step-icon svg{width:20px;height:20px;fill:none;stroke:var(--p);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.step-name{font-size:16px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.step-body{font-size:12px;color:var(--tx2);line-height:1.65}
+.step-arrow{position:absolute;right:-12px;top:24px;z-index:2}
+.step-arrow svg{width:20px;height:20px;fill:none;stroke:var(--bd);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+
+/* ── SLIDE 5: MARKET ── */
+.s5{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;width:100%;max-width:1200px}
+.market-bars{display:flex;flex-direction:column;gap:20px}
+.mbar-row{display:flex;flex-direction:column;gap:7px}
+.mbar-top{display:flex;justify-content:space-between;align-items:baseline}
+.mbar-name{font-size:12px;font-weight:600;color:var(--tx2);text-transform:uppercase;letter-spacing:.8px}
+.mbar-val{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--hi);transition:color .4s}
+.mbar-track{width:100%;height:8px;background:var(--surf2);border-radius:100px;overflow:hidden;transition:background .4s}
+.mbar-fill{height:100%;border-radius:100px;transition:background .4s}
+.mbar-sub{font-size:11px;color:var(--tx3)}
+.comps{display:flex;flex-direction:column;gap:14px}
+.comp-item{display:flex;align-items:center;gap:14px}
+.comp-name-cell{font-size:13px;font-weight:500;color:var(--tx);width:88px;flex-shrink:0}
+.comp-bar-track{flex:1;height:7px;background:var(--surf2);border-radius:100px;overflow:hidden;transition:background .4s}
+.comp-bar-fill{height:100%;border-radius:100px;background:var(--tx3);transition:background .4s}
+.comp-bar-fill.us{background:var(--p)}
+.comp-note{font-size:11px;color:var(--tx3);width:88px;text-align:right;flex-shrink:0}
+
+/* ── SLIDE 6: COMPETITIVE EDGE ── */
+.s6{display:flex;flex-direction:column;gap:26px;width:100%;max-width:1100px}
+.ctable{width:100%;border-collapse:separate;border-spacing:0 0}
+.ctable th{font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;padding:10px 18px;text-align:center;font-family:'Space Mono',monospace}
+.ctable th:first-child{text-align:left}
+.ctable td{padding:12px 18px;text-align:center;border-top:1px solid var(--bd);font-size:13px;color:var(--tx2);transition:border-color .4s}
+.ctable td:first-child{text-align:left;font-size:13px;font-weight:500;color:var(--tx)}
+.ctable th.us,.ctable td.us{background:var(--pb);font-weight:600;color:var(--p);transition:all .4s}
+.ctable thead th.us{border-radius:12px 12px 0 0}
+.ctable tbody tr:last-child td.us{border-radius:0 0 12px 12px}
+.ctable tfoot td.us{border-radius:0 0 12px 12px}
+
+/* ── SLIDE 7: BUSINESS MODEL ── */
+.s7{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;width:100%;max-width:1200px}
+.pricing{display:flex;flex-direction:column;gap:14px}
+.pcards{display:flex;gap:14px}
+.pcard{flex:1;border-radius:18px;padding:22px;border:1.5px solid var(--bd);background:var(--surf);transition:all .4s}
+.pcard.pro{border-color:var(--p);background:var(--pb)}
+.pcard-tier{font-size:10px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-family:'Space Mono',monospace;transition:color .4s}
+.pcard-price{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;color:var(--hi);letter-spacing:-1px;line-height:1;margin:8px 0 2px;transition:color .4s}
+.pcard-per{font-size:11px;color:var(--tx3)}
+.pcard-feats{list-style:none;margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.pcard-feats li{font-size:12px;color:var(--tx2);padding-left:14px;position:relative;line-height:1.5}
+.pcard-feats li::before{content:'→';position:absolute;left:0;font-size:10px;color:var(--p);transition:color .4s}
+.rev-block{display:flex;flex-direction:column;gap:16px}
+.rev-card{background:var(--surf2);border:1px solid var(--bd);border-radius:14px;padding:18px 20px;transition:all .4s}
+.rev-formula{font-family:'Space Mono',monospace;font-size:11px;color:var(--tx2);margin-bottom:7px;line-height:1.7}
+.rev-result{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:var(--hi);letter-spacing:-1px;transition:color .4s}
+.rev-sub{font-size:11px;color:var(--tx3);margin-top:3px}
+
+/* ── SLIDE 8: GTM ── */
+.s8{display:flex;flex-direction:column;gap:28px;width:100%;max-width:1100px}
+.gtm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.phase-card{border-radius:16px;padding:20px;border:1.5px solid var(--bd);background:var(--surf);position:relative;overflow:hidden;transition:all .4s}
+.phase-card.now{border-color:var(--p);background:var(--pb)}
+.phase-tag{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;transition:color .4s}
+.phase-time{font-size:11px;color:var(--tx3);margin-bottom:6px}
+.phase-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--tx);margin-bottom:10px}
+.phase-items{display:flex;flex-direction:column;gap:5px}
+.phase-item{font-size:12px;color:var(--tx2);padding-left:12px;position:relative;line-height:1.5}
+.phase-item::before{content:'·';position:absolute;left:2px;color:var(--p);font-size:16px;line-height:1;top:-2px}
+.live-badge{position:absolute;top:12px;right:12px;background:var(--p);color:var(--cbt);font-size:8px;font-weight:700;padding:2px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.5px;transition:all .4s}
+
+/* ── SLIDE 9: TEAM ── */
+.s9{display:flex;flex-direction:column;gap:28px;width:100%;max-width:1100px}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.team-card{border-radius:18px;padding:22px 18px;border:1.5px solid var(--bd);background:var(--surf);text-align:center;transition:all .4s}
+.team-card.lead{border-color:var(--p);background:var(--pb)}
+.avatar{width:54px;height:54px;border-radius:50%;background:var(--pb);border:2px solid var(--p);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:var(--p);margin:0 auto 12px;transition:all .4s}
+.team-card.lead .avatar{background:var(--p);color:var(--cbt)}
+.team-name{font-size:15px;font-weight:600;color:var(--tx);margin-bottom:3px}
+.team-role{font-size:10px;color:var(--p);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-family:'Space Mono',monospace;transition:color .4s}
+.team-bio{font-size:11px;color:var(--tx2);line-height:1.65}
+
+/* ── SLIDE 10: ASK ── */
+.s10{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;width:100%;max-width:1200px}
+.ask-amount{font-family:'Syne',sans-serif;font-weight:800;font-size:66px;color:var(--hi);letter-spacing:-2.5px;line-height:1;transition:color .4s}
+.ask-cur{font-size:16px;color:var(--tx3);margin-bottom:24px;font-weight:400}
+.fund-bars{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.fbar{display:flex;align-items:center;gap:12px}
+.fbar-name{font-size:12px;font-weight:500;color:var(--tx2);width:136px;flex-shrink:0}
+.fbar-track{flex:1;height:6px;background:var(--surf2);border-radius:100px;overflow:hidden;transition:background .4s}
+.fbar-fill{height:100%;border-radius:100px;background:var(--p);transition:background .4s,width .6s ease}
+.fbar-pct{font-family:'Space Mono',monospace;font-size:10px;color:var(--tx3);width:32px;text-align:right}
+.milestones{display:flex;flex-direction:column;gap:14px}
+.ms{display:flex;align-items:flex-start;gap:14px}
+.ms-icon{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--p);background:var(--pb);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .4s}
+.ms-icon svg{width:13px;height:13px;fill:none;stroke:var(--p);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .4s}
+.ms-title{font-size:14px;font-weight:600;color:var(--tx);margin-bottom:3px}
+.ms-body{font-size:12px;color:var(--tx2);line-height:1.55}
+
+/* ── SLIDE 11: VISION ── */
+.s11{display:flex;flex-direction:column;align-items:center;gap:38px;width:100%;max-width:1100px;text-align:center}
+.funnel-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.f-item{display:flex;flex-direction:column;align-items:center;gap:8px}
+.f-card{border-radius:18px;padding:20px 28px;border:1.5px solid var(--bd);background:var(--surf);min-width:190px;transition:all .4s}
+.f-card.active{border-color:var(--p);background:var(--pb)}
+.f-app{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--tx)}
+.f-app span{color:var(--p);transition:color .4s}
+.f-verb{font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-top:5px}
+.f-arrow{color:var(--bd);font-size:22px;margin-top:16px;transition:color .4s}
+.vision-quote{max-width:780px;font-size:19px;color:var(--tx2);line-height:1.68;font-weight:300;font-style:italic;border-left:3px solid var(--p);padding-left:24px;text-align:left;transition:border-color .4s}
+.vision-credit{font-size:13px;color:var(--tx3);text-align:left;padding-left:24px;font-style:normal;margin-top:8px}
+.close-row{display:flex;align-items:center;gap:12px}
+.close-pill{background:var(--surf);border:1.5px solid var(--bd);border-radius:100px;padding:8px 18px;font-size:12px;color:var(--tx2);font-weight:500;transition:all .4s}
+.close-pill.main{background:var(--p);border-color:var(--p);color:var(--cbt);font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS -->
+<div id="pbar" style="width:9.09%"></div>
+
+<!-- CONTROLS -->
+<div class="ctrls">
+  <button class="tbtn on" onclick="setT('cobalt',this)"><div class="tdot" style="background:#1E3DD4"></div>Cobalt</button>
+  <button class="tbtn" onclick="setT('ember',this)"><div class="tdot" style="background:#C04808"></div>Ember</button>
+  <button class="tbtn" onclick="setT('sage',this)"><div class="tdot" style="background:#166534"></div>Sage</button>
+  <button class="tbtn" onclick="setT('void',this)"><div class="tdot" style="background:#141414;border:1px solid #aaa"></div>Void</button>
+  <button class="tbtn" onclick="setT('violet',this)"><div class="tdot" style="background:#601EC8"></div>Violet</button>
+  <div class="mtog" onclick="toggleM()">
+    <div class="mtr"><div class="mth"></div></div>
+    <span id="mlbl">Light</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-bar">
+  <button class="nbtn" onclick="prev()"><svg viewBox="0 0 12 12"><path d="M8 2L4 6l4 4"/></svg></button>
+  <div class="dots" id="dots"></div>
+  <span class="slbl" id="slbl">1 / 12</span>
+  <button class="nbtn" onclick="next()"><svg viewBox="0 0 12 12"><path d="M4 2l4 4-4 4"/></svg></button>
+</div>
+
+<!-- ═══════════════════════════════ SLIDES ═══════════════════════════════ -->
+<div class="deck">
+
+<!-- ── SLIDE 1: COVER ── -->
+<div class="slide active" id="s0">
+  <div class="stag">Qvise · Pre-Seed Pitch · 2025</div>
+  <div class="s1">
+    <div>
+      <div class="s1-kicker">
+        <div class="s1-mark-badge">
+          <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5" style="stroke:var(--p)"/><path d="M5 8h8M5 11h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" style="stroke:var(--p)"/></svg>
+        </div>
+        <span class="s1-brand">MostishCo</span>
+        <span class="tag">Pre-Seed</span>
+      </div>
+      <div class="s1-headline">The Science of<br><span>Remembering.</span><br>Reengineered.</div>
+      <div class="s1-sub">Qvise turns any student's notes into AI-generated flashcards — then schedules them around the student's actual week. Not just the right card. The right card at the right time, on the right day.</div>
+      <div class="s1-pills">
+        <div class="s1-pill">Flutter · Firebase</div>
+        <div class="s1-pill">Gemini AI · FSRS Algorithm</div>
+        <div class="s1-pill">Busyness-Adaptive Scheduling</div>
+      </div>
+    </div>
+    <div class="s1-right"><div id="cover-mark"></div></div>
+  </div>
+</div>
+
+<!-- ── SLIDE 2: PROBLEM ── -->
+<div class="slide" id="s1">
+  <div class="stag">The Problem</div>
+  <div class="s2">
+    <div>
+      <div class="label">The Forgetting Crisis</div>
+      <div class="s-title" style="margin-bottom:12px">Students <span>work hard.</span><br>Memory fails them.</div>
+      <div class="curve-wrap">
+        <svg width="100%" viewBox="0 0 320 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="12" font-family="'Space Mono',monospace" font-size="9" fill="var(--tx3)">RETENTION (%)</text>
+          <line x1="30" y1="20" x2="30" y2="120" stroke="var(--bd)" stroke-width="1"/>
+          <line x1="30" y1="120" x2="300" y2="120" stroke="var(--bd)" stroke-width="1"/>
+          <path d="M30,28 C50,32 70,52 100,75 C130,92 160,103 200,110 C240,116 270,118 300,119" stroke="var(--tx3)" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <path d="M30,28 C45,30 55,36 70,44" stroke="var(--p)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="30" cy="28" r="3.5" fill="var(--p)"/>
+          <text x="34" y="26" font-family="'Space Mono',monospace" font-size="9" fill="var(--p)">100%</text>
+          <circle cx="70" cy="44" r="3" fill="var(--p)"/>
+          <text x="72" y="42" font-family="'Space Mono',monospace" font-size="8" fill="var(--tx3)">~58% after 1hr</text>
+          <text x="110" y="85" font-family="'Space Mono',monospace" font-size="8" fill="var(--tx3)">~30% after 1 day</text>
+          <text x="200" y="107" font-family="'Space Mono',monospace" font-size="8" fill="var(--tx3)">~20% after 1 wk</text>
+          <text x="32" y="132" font-family="'DM Sans',sans-serif" font-size="9" fill="var(--tx3)">Now</text>
+          <text x="115" y="132" font-family="'DM Sans',sans-serif" font-size="9" fill="var(--tx3)">1 Day</text>
+          <text x="200" y="132" font-family="'DM Sans',sans-serif" font-size="9" fill="var(--tx3)">1 Week</text>
+          <text x="62" y="115" font-family="'Syne',sans-serif" font-weight="700" font-size="11" fill="var(--hi)">Ebbinghaus Forgetting Curve</text>
+        </svg>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <div class="h-num">70%</div>
+        <div style="font-size:14px;color:var(--tx2);line-height:1.5;max-width:200px">of new information forgotten within <strong style="color:var(--tx)">24 hours</strong> of learning it</div>
+      </div>
+    </div>
+    <div class="prob-cards">
+      <div class="card">
+        <div class="prob-row">
+          <div class="prob-n">1</div>
+          <div>
+            <div class="prob-title">Re-reading feels productive. It isn't.</div>
+            <div class="prob-body">Most students highlight, re-read, and hope for the best. Research shows this is one of the least effective study strategies — yet it's the default because nothing better is easy enough to replace it.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="prob-row">
+          <div class="prob-n">2</div>
+          <div>
+            <div class="prob-title">Making flashcards takes longer than studying them</div>
+            <div class="prob-body">Students spend 3–4 hours creating cards for a single chapter — time stolen from actual learning. The process is repetitive, draining, and completely automatable by AI.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="prob-row">
+          <div class="prob-n">3</div>
+          <div>
+            <div class="prob-title">Spaced repetition works — but every app treats you like a machine</div>
+            <div class="prob-body">Anki, RemNote, and others schedule cards with scientific precision. But they assume you're available every single day. The algorithm doesn't know you have a lab on Tuesday, a part-time job on Thursday, or an exam in two days.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="prob-row">
+          <div class="prob-n">4</div>
+          <div>
+            <div class="prob-title">Miss one day. Come back to 200 overdue cards. Quit.</div>
+            <div class="prob-body">This is how most students abandon spaced repetition. Not because the science fails — but because the app does. Reviews pile up, guilt builds, and the tool designed to help becomes a source of stress.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 3: SOLUTION ── -->
+<div class="slide" id="s2">
+  <div class="stag">The Solution</div>
+  <div class="s3">
+    <div class="s3-header">
+      <div class="label" style="display:inline-block;margin-bottom:10px">Introducing Qvise</div>
+      <div class="s-title" style="margin-bottom:12px">Your notes. <span>Transformed.</span> Remembered.</div>
+      <div class="s-body" style="max-width:680px;margin:0 auto">Qvise generates flashcards from a student's own content, groups them by lesson, and schedules reviews around the student's real-life availability — using FSRS accuracy with a busyness-adaptive layer no other app has.</div>
+    </div>
+    <div class="s3-grid">
+      <div class="card s3-card">
+        <div class="s3-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4M9 3h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18"/></svg>
+        </div>
+        <div class="s3-name">AI Generation</div>
+        <div class="s3-body">Upload any notes, PDF, or lecture slide. Gemini AI reads your content and writes targeted Q&A flashcards — grouped by lesson, not scattered randomly. Your source material stays attached to every deck.</div>
+        <div class="s3-quote">"Stop making cards. Start learning."</div>
+      </div>
+      <div class="card-accent s3-card">
+        <div class="s3-icon" style="background:rgba(255,255,255,.3)">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <div class="s3-name">Busyness-Adaptive Scheduling</div>
+        <div class="s3-body">Tell Qvise how busy your week is. The FSRS engine calculates optimal review timing per card — then our adaptive layer redistributes your load across your available days. Busy Monday? Your cards shift to Tuesday. No guilt. No backlog. No overdue pile.</div>
+        <div class="s3-quote">"Your schedule shapes your study — not the other way around."</div>
+      </div>
+      <div class="card s3-card">
+        <div class="s3-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div class="s3-name">Lesson-Based Review</div>
+        <div class="s3-body">Other apps scatter your cards randomly across subjects. Qvise groups reviews by source — so your Thursday session is "Chapter 7: Cardiac Physiology," not 40 cards from 12 different topics. Study sessions that match how your brain actually organises knowledge.</div>
+        <div class="s3-quote">"Review by lesson. Not by random queue."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 4: HOW IT WORKS ── -->
+<div class="slide" id="s3">
+  <div class="stag">Product</div>
+  <div class="s4">
+    <div>
+      <div class="label">How It Works</div>
+      <div class="s-title">Four steps. <span>Zero friction.</span></div>
+    </div>
+    <div class="s4-steps">
+      <div class="card s4-step">
+        <div class="step-n">01</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 22 22"><path d="M11 2v12M6 9l5 5 5-5"/><path d="M3 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        </div>
+        <div class="step-name">Upload</div>
+        <div class="step-body">Add notes, PDFs, lecture slides, or paste text directly. Any format, any subject, any language.</div>
+        <div class="step-arrow"><svg viewBox="0 0 20 12"><path d="M0 6h16M12 2l4 4-4 4"/></svg></div>
+      </div>
+      <div class="card s4-step">
+        <div class="step-n">02</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 22 22"><path d="M9.5 2A7.5 7.5 0 1017 9.5a7.5 7.5 0 00-7.5-7.5z"/><path d="M9.5 6v3.5l2.5 2.5"/><path d="M19 19l-2.5-2.5"/></svg>
+        </div>
+        <div class="step-name">Generate</div>
+        <div class="step-body">Gemini AI analyses your content and creates targeted question–answer flashcards optimised for exam recall.</div>
+        <div class="step-arrow"><svg viewBox="0 0 20 12"><path d="M0 6h16M12 2l4 4-4 4"/></svg></div>
+      </div>
+      <div class="card s4-step">
+        <div class="step-n">03</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="14" rx="2.5"/><path d="M8 4V2M14 4V2M3 10h16"/></svg>
+        </div>
+        <div class="step-name">Adapt</div>
+        <div class="step-body">Set your available study time for the week. Qvise's adaptive scheduler redistributes due cards across your free days — FSRS-accurate timing, reshaped to fit your life.</div>
+        <div class="step-arrow"><svg viewBox="0 0 20 12"><path d="M0 6h16M12 2l4 4-4 4"/></svg></div>
+      </div>
+      <div class="card-accent s4-step">
+        <div class="step-n">04</div>
+        <div class="step-icon" style="background:rgba(255,255,255,.25)">
+          <svg viewBox="0 0 22 22"><path d="M11 2l2.5 6H20l-5.25 4 2 6.5L11 15l-5.75 3.5 2-6.5L2 8h6.5z"/></svg>
+        </div>
+        <div class="step-name">Retain</div>
+        <div class="step-body">Track mastery, retention, and weekly study load. See exactly what you know, what's due, and how your schedule adapted around your week.</div>
+      </div>
+    </div>
+    <div class="card-sm" style="background:var(--surf2);border-color:var(--bd)">
+      <div style="display:flex;gap:40px;align-items:center">
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--hi)">50K+</div><div style="font-size:11px;color:var(--tx3)">lines of Flutter code<br>already built</div></div>
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--hi)">FSRS</div><div style="font-size:11px;color:var(--tx3)">State-of-the-art algorithm +<br>busyness-adaptive layer</div></div>
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--hi)">Native</div><div style="font-size:11px;color:var(--tx3)">Flutter · iOS + Android<br>from day one</div></div>
+        <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--hi)">AI Core</div><div style="font-size:11px;color:var(--tx3)">Gemini 3.1 Flash<br>generation engine</div></div>
+        <div style="flex:1;text-align:right"><div class="tag">Production-Ready Tech Stack</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 5: MARKET ── -->
+<div class="slide" id="s4">
+  <div class="stag">Market Opportunity</div>
+  <div class="s5">
+    <div>
+      <div class="label">The Opportunity</div>
+      <div class="s-title" style="margin-bottom:16px">A <span>massive</span> market.<br>Poorly served.</div>
+      <div class="s-body" style="margin-bottom:28px">300 million university-level students globally. Every spaced repetition app on the market schedules cards in isolation — if you miss a day, reviews pile up. Qvise is the first to adapt the schedule to the student's actual week.</div>
+      <div class="market-bars">
+        <div class="mbar-row">
+          <div class="mbar-top"><span class="mbar-name">TAM — Flashcard &amp; SRS Software</span><span class="mbar-val">$2.5B</span></div>
+          <div class="mbar-track"><div class="mbar-fill" style="width:100%;background:var(--bd)"></div></div>
+          <div class="mbar-sub">Global flashcard and spaced repetition software market, 2025 · ~18% CAGR</div>
+        </div>
+        <div class="mbar-row">
+          <div class="mbar-top"><span class="mbar-name">SAM — Student Flashcard/SRS Apps</span><span class="mbar-val">~$350M</span></div>
+          <div class="mbar-track"><div class="mbar-fill" style="width:14%;background:var(--p);opacity:.6"></div></div>
+          <div class="mbar-sub">Mobile flashcard &amp; SRS apps for university students globally · 264M enrolled worldwide (UNESCO)</div>
+        </div>
+        <div class="mbar-row">
+          <div class="mbar-top"><span class="mbar-name">SOM — Year 1 Target</span><span class="mbar-val">10K installs → 4K MAU → $24K ARR</span></div>
+          <div class="mbar-track"><div class="mbar-fill" style="width:1%;background:var(--p)"></div></div>
+          <div class="mbar-sub">Bottom-up: ৳12L paid ads at $1–2 CPI + organic (Reddit, Product Hunt, WhatsApp, campus ambassadors)</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom:16px">Current Landscape</div>
+      <div class="comps">
+        <div class="comp-item"><span class="comp-name-cell" style="color:var(--p);font-weight:700">Qvise ✦</span><div class="comp-bar-track"><div class="comp-bar-fill us" style="width:10%"></div></div><span class="comp-note" style="color:var(--p)">AI-native</span></div>
+        <div class="comp-item"><span class="comp-name-cell">Anki</span><div class="comp-bar-track"><div class="comp-bar-fill" style="width:40%"></div></div><span class="comp-note">10M users</span></div>
+        <div class="comp-item"><span class="comp-name-cell">Quizlet</span><div class="comp-bar-track"><div class="comp-bar-fill" style="width:70%"></div></div><span class="comp-note">60M MAU</span></div>
+        <div class="comp-item"><span class="comp-name-cell">RemNote</span><div class="comp-bar-track"><div class="comp-bar-fill" style="width:6%"></div></div><span class="comp-note">AI + SRS</span></div>
+        <div class="comp-item"><span class="comp-name-cell">Brainscape</span><div class="comp-bar-track"><div class="comp-bar-fill" style="width:8%"></div></div><span class="comp-note">Niche</span></div>
+      </div>
+      <div class="card-sm" style="margin-top:20px;background:var(--pb);border-color:var(--p)">
+        <div class="label" style="margin-bottom:6px">The Gap</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.65">Anki, RemNote, and Quizlet all offer FSRS scheduling, AI card generation, or document-based queues. But every one of them schedules cards without regard for your real-life availability — if you miss a day, reviews pile up. <strong style="color:var(--tx)">Qvise is the only app that adapts its review schedule to the student's actual week — redistributing due cards across available days instead of letting them pile up.</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 6: COMPETITIVE EDGE ── -->
+<div class="slide" id="s5">
+  <div class="stag">Competitive Edge</div>
+  <div class="s6">
+    <div>
+      <div class="label">Why We Win</div>
+      <div class="s-title">Same science. <span>Completely different experience.</span></div>
+    </div>
+    <table class="ctable">
+      <thead>
+        <tr>
+          <th style="text-align:left">Feature</th>
+          <th class="us">Qvise ✦</th>
+          <th>Anki</th>
+          <th>Quizlet</th>
+          <th>RemNote</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AI flashcard generation from your content</td>
+          <td class="us"><span class="check">✓</span> From uploads</td>
+          <td><span class="cross">✗</span> Manual only</td>
+          <td><span class="check">✓</span> PDF/notes</td>
+          <td><span class="check">✓</span> Notes/PDF</td>
+        </tr>
+        <tr>
+          <td>FSRS scheduling</td>
+          <td class="us"><span class="check">✓</span> Native FSRS</td>
+          <td><span class="check">✓</span> Since 23.10</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span> Since v1.16</td>
+        </tr>
+        <tr>
+          <td>Busyness-adaptive scheduling</td>
+          <td class="us"><span class="check">✓</span> Adjusts to your week</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td>Lesson-based review sessions</td>
+          <td class="us"><span class="check">✓</span> Grouped by source</td>
+          <td><span class="cross">✗</span> Card-by-card</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">⚡ Doc queues</span></td>
+        </tr>
+        <tr>
+          <td>Offline-first mobile app</td>
+          <td class="us"><span class="check">✓</span> Flutter native</td>
+          <td><span class="partial">⚡ Desktop-first</span></td>
+          <td><span class="cross">✗</span> Web-first</td>
+          <td><span class="check">✓</span> Cross-platform</td>
+        </tr>
+        <tr>
+          <td>Source file storage (PDFs, notes)</td>
+          <td class="us"><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">⚡ Upload only</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td>Free tier available</td>
+          <td class="us"><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="partial">⚡ Limited</span></td>
+          <td><span class="partial">⚡ Limited</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card-sm" style="background:var(--pb);border-color:var(--p)">
+      <div style="display:flex;align-items:center;gap:24px">
+        <div class="label" style="margin:0;flex-shrink:0">Our moat</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.65">The one thing no competitor does: <strong style="color:var(--tx)">busyness-adaptive scheduling</strong> that reshapes your daily card load around your real-life availability. Anki, RemNote, and Quizlet all pile up reviews when you miss a day. Qvise redistributes them across your free days — FSRS accuracy without the backlog guilt.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 7: BUSINESS MODEL ── -->
+<div class="slide" id="s6">
+  <div class="stag">Business Model</div>
+  <div class="s7">
+    <div>
+      <div class="label">Pricing</div>
+      <div class="s-title" style="margin-bottom:20px">Freemium core.<br><span>Pro converts.</span></div>
+      <div class="pcards">
+        <div class="pcard">
+          <div class="pcard-tier">Free</div>
+          <div class="pcard-price">$0</div>
+          <div class="pcard-per">forever</div>
+          <ul class="pcard-feats">
+            <li>30 AI-generated cards / month</li>
+            <li>Full FSRS review scheduling</li>
+            <li>Up to 2 active decks</li>
+            <li>Basic study analytics</li>
+          </ul>
+        </div>
+        <div class="pcard pro">
+          <div class="pcard-tier">Pro ✦</div>
+          <div class="pcard-price">$4.99</div>
+          <div class="pcard-per">/ month · $35.99 / year (save 40%)</div>
+          <ul class="pcard-feats">
+            <li>Unlimited AI card generation</li>
+            <li>Unlimited decks</li>
+            <li>PDF + image upload</li>
+            <li>Advanced analytics &amp; export</li>
+            <li>Priority AI processing</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:14px;font-size:12px;color:var(--tx3)">RevenueCat powers subscription management · Available App Store &amp; Google Play</div>
+    </div>
+    <div class="rev-block">
+      <div class="label">Revenue Projections (USD)</div>
+      <div class="rev-card">
+        <div class="rev-formula">2,000 users × 5% conversion × $4.99/mo</div>
+        <div class="rev-result">$499 / month</div>
+        <div class="rev-sub">Conservative · Month 4–5 milestone</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-formula">8,000 users × 8% conversion × $4.99/mo</div>
+        <div class="rev-result">$3,194 / month</div>
+        <div class="rev-sub">Year 1 end-state · 90%+ gross margin</div>
+      </div>
+      <div class="rev-card" style="border-color:var(--p);background:var(--pb)">
+        <div class="rev-formula">Investment recovery (cumulative profit)</div>
+        <div class="rev-result">Month 12–14</div>
+        <div class="rev-sub">৳30,00,000 (~$27,273) recovered from operations at base-case growth</div>
+      </div>
+      <div class="card-sm">
+        <div style="font-size:12px;color:var(--tx2);line-height:1.65"><strong style="color:var(--tx)">Unit economics:</strong> Gemini 3.1 Flash costs $0.004/generation session. Pro user infra cost ≈ $0.08/mo. CAC via paid ads ≈ $1–2 (Tier 2/3 markets). LTV at annual plan ≈ $35.99. <strong style="color:var(--tx)">LTV:CAC &gt; 17×.</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 8: GO-TO-MARKET ── -->
+<div class="slide" id="s7">
+  <div class="stag">Go-to-Market</div>
+  <div class="s8">
+    <div>
+      <div class="label">Growth Strategy</div>
+      <div class="s-title">Organic foundation.<br><span>Paid acceleration.</span></div>
+    </div>
+    <div class="gtm-grid">
+      <div class="phase-card now">
+        <div class="live-badge">Now</div>
+        <div class="phase-tag">Phase 1</div>
+        <div class="phase-time">Pre-launch</div>
+        <div class="phase-name">Waitlist &amp; Buzz</div>
+        <div class="phase-items">
+          <div class="phase-item">BetaList &amp; BetaPage submissions</div>
+          <div class="phase-item">Product teaser content</div>
+          <div class="phase-item">Founder-led social presence</div>
+          <div class="phase-item">Target: 1,000+ waitlist signups</div>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-tag">Phase 2</div>
+        <div class="phase-time">Month 1–2</div>
+        <div class="phase-name">Organic Communities</div>
+        <div class="phase-items">
+          <div class="phase-item">Med student Facebook/WhatsApp groups</div>
+          <div class="phase-item">r/medicalschool (500K members)</div>
+          <div class="phase-item">r/Anki, r/studytips, r/lawschool</div>
+          <div class="phase-item">60-second upload → study demo videos</div>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-tag">Phase 3</div>
+        <div class="phase-time">Month 2–5 · Funded Phase</div>
+        <div class="phase-name">Paid Acquisition</div>
+        <div class="phase-items">
+          <div class="phase-item">Meta Reels · med students in Tier 2/3 markets</div>
+          <div class="phase-item">Apple Search Ads · flashcard app keywords</div>
+          <div class="phase-item">University WhatsApp group seeding</div>
+          <div class="phase-item">TikTok/YouTube Shorts creator partnerships</div>
+          <div class="phase-item">Budget: ৳12,00,000</div>
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-tag">Phase 4</div>
+        <div class="phase-time">Month 3+</div>
+        <div class="phase-name">Virality &amp; Scale</div>
+        <div class="phase-items">
+          <div class="phase-item">Product Hunt launch</div>
+          <div class="phase-item">Deck sharing &amp; referral loop</div>
+          <div class="phase-item">University ambassador program</div>
+          <div class="phase-item">Ambassador stipend programme (20 campuses)</div>
+          <div class="phase-item">EdTech platform partnerships</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-sm" style="background:var(--surf2)">
+      <div style="display:flex;gap:36px;align-items:center;flex-wrap:wrap">
+        <div><div class="label" style="margin-bottom:3px">Primary target</div><div style="font-size:13px;color:var(--tx2)">Medical students in non-English curricula · University students globally</div></div>
+        <div><div class="label" style="margin-bottom:3px">Secondary target</div><div style="font-size:13px;color:var(--tx2)">Law, nursing &amp; professional certification candidates worldwide</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 9: TEAM ── -->
+<div class="slide" id="s8">
+  <div class="stag">The Team</div>
+  <div class="s9">
+    <div>
+      <div class="label">Who's Building This</div>
+      <div class="s-title">Builders who <span>use the product.</span></div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card lead">
+        <div class="avatar">SH</div>
+        <div class="team-name">Shahriyar Haris</div>
+        <div class="team-role">Founder · Tech Lead</div>
+        <div class="team-bio">Full-stack Flutter architect. Built 50K+ line production codebase for Qvise solo. Founder of MostishCo — an AI product studio. Previously co-built Zanmy, a low-cost Braille teaching device. Deep expertise in SRS algorithms, AI integration, and mobile-first product development.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar">TJ</div>
+        <div class="team-name">Tasnima Jannat</div>
+        <div class="team-role">Growth Lead</div>
+        <div class="team-bio">Drives user acquisition, social content strategy, and community building. Owns all channel experiments from Reddit to paid acquisition. Responsible for the Phase 2–3 GTM execution.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar">AC</div>
+        <div class="team-name">Arunima Chakraborty</div>
+        <div class="team-role">AI & Analytics</div>
+        <div class="team-bio">Owns AI integration quality, prompt engineering, and learning analytics. Monitors model performance, card quality metrics, and retention data to continuously improve Qvise's intelligence layer.</div>
+      </div>
+      <div class="team-card">
+        <div class="avatar">FZ</div>
+        <div class="team-name">Faiyad Zaim</div>
+        <div class="team-role">Outreach & Partnerships</div>
+        <div class="team-bio">University liaisons, student community relationships, and operational logistics. Manages ambassador programme and institutional outreach to coaching centres and study groups.</div>
+      </div>
+    </div>
+    <div class="card-sm" style="background:var(--pb);border-color:var(--p);text-align:center;margin-bottom:10px">
+      <div style="font-size:14px;color:var(--tx);font-weight:600;line-height:1.6">
+        🏆 IBA-DU Alumni · Int. Blockchain Olympiad Winner · Stockholm Water Prize Laureate · IEEE Junior Einstein Global Winner · Previously raised ৳1M+
+      </div>
+    </div>
+    <div class="card-sm" style="background:var(--surf2)">
+      <div style="display:flex;gap:36px;align-items:center">
+        <div><div class="label" style="margin-bottom:3px">Why us?</div><div style="font-size:13px;color:var(--tx2);max-width:700px;line-height:1.65">The core technology is <strong style="color:var(--tx)">already built</strong>. Most student projects pitch an idea. Qvise pitches a completed, production-grade product waiting for fuel. This raise funds 12 months of distribution, team operations, and infrastructure — the product is already built.</div></div>
+        <div class="tag" style="margin-left:auto;white-space:nowrap">Product-ready. Raising to scale.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 10: THE ASK ── -->
+<div class="slide" id="s9">
+  <div class="stag">The Ask</div>
+  <div class="s10">
+    <div>
+      <div class="label">We're Raising</div>
+      <div class="ask-amount">৳30,00,000</div>
+      <div class="ask-cur">Bangladeshi Taka · Pre-Seed Round · 2025</div>
+      <div class="label" style="margin-bottom:12px">Use of Funds</div>
+      <div class="fund-bars">
+        <div class="fbar">
+          <span class="fbar-name">Marketing &amp; Paid Ads</span>
+          <div class="fbar-track"><div class="fbar-fill" style="width:40%"></div></div>
+          <span class="fbar-pct">40%</span>
+        </div>
+        <div class="fbar">
+          <span class="fbar-name">Team Stipends (12 months)</span>
+          <div class="fbar-track"><div class="fbar-fill" style="width:22%;opacity:.85"></div></div>
+          <span class="fbar-pct">22%</span>
+        </div>
+        <div class="fbar">
+          <span class="fbar-name">Cloud Infrastructure</span>
+          <div class="fbar-track"><div class="fbar-fill" style="width:12%;opacity:.7"></div></div>
+          <span class="fbar-pct">12%</span>
+        </div>
+        <div class="fbar">
+          <span class="fbar-name">Gemini API Credits</span>
+          <div class="fbar-track"><div class="fbar-fill" style="width:10%;opacity:.65"></div></div>
+          <span class="fbar-pct">10%</span>
+        </div>
+        <div class="fbar">
+          <span class="fbar-name">Content &amp; Community</span>
+          <div class="fbar-track"><div class="fbar-fill" style="width:8%;opacity:.55"></div></div>
+          <span class="fbar-pct">8%</span>
+        </div>
+        <div class="fbar">
+          <span class="fbar-name">Legal / LLC / Contingency</span>
+          <div class="fbar-track"><div class="fbar-fill" style="width:8%;opacity:.55"></div></div>
+          <span class="fbar-pct">8%</span>
+        </div>
+      </div>
+      <div class="card-sm" style="background:var(--surf2)">
+        <div style="font-size:12px;color:var(--tx3);line-height:1.7"><strong style="color:var(--tx)">Why so specific?</strong> ৳12L ads = ~6,000–12,000 installs across Tier 2/3 markets at $1–2 CPI. Organic channels target 2× additional. ৳6.6L team = 4 people × ৳13,750/mo × 12 months. ৳6.6L infra + API = 18+ months runway at 10,000 MAU. ৳2.4L legal covers US LLC (Doola), App Store accounts, and contingency. Every taka is accounted for.</div>
+      </div>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom:16px">12-Month Milestones</div>
+      <div class="milestones">
+        <div class="ms">
+          <div class="ms-icon"><svg viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3"/></svg></div>
+          <div>
+            <div class="ms-title">App Store &amp; Google Play launch</div>
+            <div class="ms-body">iOS and Android simultaneous release. Full Flutter native build already complete.</div>
+          </div>
+        </div>
+        <div class="ms">
+          <div class="ms-icon"><svg viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3"/></svg></div>
+          <div>
+            <div class="ms-title">2,000 active users — Month 4</div>
+            <div class="ms-body">Verified through Firebase Analytics. Users completing at least 3 review sessions per week.</div>
+          </div>
+        </div>
+        <div class="ms">
+          <div class="ms-icon"><svg viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3"/></svg></div>
+          <div>
+            <div class="ms-title">First 200 paying Pro subscribers — Month 6</div>
+            <div class="ms-body">Proves willingness-to-pay at scale. Validates unit economics. RevenueCat dashboard tracking.</div>
+          </div>
+        </div>
+        <div class="ms">
+          <div class="ms-icon"><svg viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3"/></svg></div>
+          <div>
+            <div class="ms-title">Product Hunt launch — Month 5</div>
+            <div class="ms-body">Organic install spike. International student community exposure. Timed to hit 3,000 MAU pre-launch buzz.</div>
+          </div>
+        </div>
+        <div class="ms">
+          <div class="ms-icon"><svg viewBox="0 0 14 14"><path d="M7 2v5l3 3M7 12a5 5 0 100-10 5 5 0 000 10z"/></svg></div>
+          <div>
+            <div class="ms-title">Seed readiness — Month 12</div>
+            <div class="ms-body">10K MAU, 800+ Pro subscribers, $4K+ MRR, proven CAC/LTV. Ready to raise $100K+ seed round.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-sm" style="background:var(--pb);border-color:var(--p);margin-top:16px">
+        <div class="label" style="margin-bottom:6px">Investment Structure</div>
+        <div style="font-size:13px;color:var(--tx2);line-height:1.65">Pre-seed SAFE · Valuation cap negotiable · No board seat required. This raise covers 12 months of runway. Target: reach seed-readiness metrics before Month 12.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SLIDE 11: BREAKEVEN ANALYSIS ── -->
+<div class="slide" id="s10b">
+  <div class="stag">Financial Analysis</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%;max-width:1200px;align-items:start">
+
+    <!-- LEFT COLUMN -->
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div>
+        <div class="label">Operational Breakeven</div>
+        <div class="s-title" style="font-size:36px">Simple unit economics. <span>Fast payback.</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+          <span class="tag" style="font-size:10px">Gemini 3.1 · $0.004/session</span>
+          <span class="tag" style="font-size:10px">Firestore · Free ≤5K MAU</span>
+          <span class="tag" style="font-size:10px">Cloud Run · Free ≤40K MAU</span>
+          <span class="tag" style="font-size:10px">Team · ৳13,750/person/mo × 4</span>
+        </div>
+      </div>
+
+      <!-- BASE CASE SUMMARY -->
+      <div class="card-accent">
+        <div class="label" style="margin-bottom:10px">Base Case · 5% Conversion</div>
+        <div style="font-size:14px;color:var(--tx);line-height:1.75">Qvise reaches operational breakeven at <strong>~2,220 MAU</strong> (111 paying at 5% conversion) — estimated <strong>Mo 4–5</strong>. Monthly fixed costs: <strong>$513</strong> (team $500 + infra $13). Contribution margin per Pro user: <strong>$4.63</strong>. Cloud infra stays near-zero until 5K+ MAU thanks to Firebase and Cloud Run free tiers.</div>
+      </div>
+
+      <!-- INVESTMENT RECOVERY -->
+      <div class="card-sm" style="background:var(--pb);border-color:var(--p)">
+        <div class="label" style="margin-bottom:8px">Investment Recovery</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--hi);line-height:1">Month 12–14</div>
+        <div style="font-size:11px;color:var(--tx2);margin-top:4px;line-height:1.55">$27,273 cumulative profit from operations recovers the full pre-seed raise. Based on base-case growth reaching 8,000–10,000 MAU by Month 12.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: P&L TABLE -->
+    <div class="card-sm" style="padding:0;overflow:hidden">
+      <div style="padding:12px 16px 10px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center">
+        <div class="label" style="margin:0">Monthly P&amp;L at Scale · Base Case (5% conversion)</div>
+        <div style="font-size:10px;color:var(--tx3);font-family:'Space Mono',monospace">All figures USD</div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:11px">
+        <thead>
+          <tr style="background:var(--surf2)">
+            <th style="padding:7px 14px;text-align:left;font-weight:600;color:var(--tx3);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.8px">Total MAU</th>
+            <th style="padding:7px 10px;text-align:right;font-weight:600;color:var(--tx3);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.8px">Pro Users</th>
+            <th style="padding:7px 10px;text-align:right;font-weight:600;color:var(--tx3);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.8px">Revenue</th>
+            <th style="padding:7px 10px;text-align:right;font-weight:600;color:var(--tx3);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.8px">Total Costs</th>
+            <th style="padding:7px 10px;text-align:right;font-weight:600;color:var(--tx3);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.8px">Net Profit</th>
+            <th style="padding:7px 14px;text-align:right;font-weight:600;color:var(--tx3);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.8px">Margin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-top:1px solid var(--bd)">
+            <td style="padding:7px 14px;font-weight:600;color:var(--tx)">100</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">5</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">$24.95</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">$515</td>
+            <td style="padding:7px 10px;text-align:right;font-weight:600;color:var(--err,#e53)">−$490</td>
+            <td style="padding:7px 14px;text-align:right;color:var(--tx3)">—</td>
+          </tr>
+          <tr style="border-top:1px solid var(--bd);background:var(--surf2)">
+            <td style="padding:7px 14px;font-weight:600;color:var(--tx)">1,000</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">50</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">$249.50</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">$532</td>
+            <td style="padding:7px 10px;text-align:right;font-weight:600;color:var(--err,#e53)">−$283</td>
+            <td style="padding:7px 14px;text-align:right;color:var(--tx3)">—</td>
+          </tr>
+          <tr style="border-top:1px solid var(--bd);background:var(--pb)">
+            <td style="padding:7px 14px;font-weight:700;color:var(--p)">5,000 ✦</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--p)">250</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--p)">$1,247.50</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--p)">$607</td>
+            <td style="padding:7px 10px;text-align:right;font-weight:700;color:var(--p)">+$641</td>
+            <td style="padding:7px 14px;text-align:right;color:var(--p);font-weight:700">51.4%</td>
+          </tr>
+          <tr style="border-top:1px solid var(--bd)">
+            <td style="padding:7px 14px;font-weight:600;color:var(--tx)">10,000</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">500</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">$2,495.00</td>
+            <td style="padding:7px 10px;text-align:right;color:var(--tx2)">$701</td>
+            <td style="padding:7px 10px;text-align:right;font-weight:600;color:var(--ok)">+$1,794</td>
+            <td style="padding:7px 14px;text-align:right;color:var(--tx3)">71.9%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:8px 14px;border-top:1px solid var(--bd);font-size:10px;color:var(--tx3)">
+        Costs = Fixed $513/mo (team $500 + infra $13) + (MAU × $0.015) + (Pro × $0.075) · Firebase free tier ≤5K MAU · Cloud Run free tier ≤40K MAU · RevenueCat free under $2,500 MRR · ✦ Breakeven zone
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── SLIDE 12: VISION ── -->
+<div class="slide" id="s10">
+  <div class="stag">Vision</div>
+  <div class="s11">
+    <div>
+      <div class="label" style="display:inline-block;margin-bottom:10px">The Bigger Picture</div>
+      <div class="s-title">Not a flashcard app.<br>The <span>infrastructure</span> for learning.</div>
+    </div>
+    <div style="max-width:640px;margin:0 auto">
+      <div class="s-body" style="font-size:16px;line-height:1.75;text-align:center">Every spaced repetition app on earth asks students to adapt their life to a review queue. Qvise is the first to flip that — adapting the queue to the student's week. This raise puts it into the hands of 10,000 students in 12 months.</div>
+    </div>
+    <div class="close-row">
+      <div class="close-pill main">৳30,00,000 (~$27,273) · Pre-Seed · 2025</div>
+      <div class="close-pill">haris@mostishco.com</div>
+      <div class="close-pill">MostishCo · Building AI Products for Human Minds</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+const TOTAL=12;
+let cur=0;
+
+const CT={
+  cobalt:{L:{bg:'#EDF1FF',cf:'#FFFFFF',cb:'#1E3DD4',cbo:.28,ci:'#1E3DD4',cio:.14,qf:'#1E3DD4',qb:'#FFFFFF',qbo:.9,qi:'#FFFFFF',qio:.45,sh:'rgba(10,20,80,.12)'},
+          D:{bg:'#050C22',cf:'#0B1636',cb:'#4E6EF5',cbo:.45,ci:'#4E6EF5',cio:.22,qf:'#4E6EF5',qb:'#FFFFFF',qbo:.9,qi:'#C4D2FF',qio:.45,sh:'rgba(78,110,245,.18)'}},
+  ember:{L:{bg:'#FFF5EC',cf:'#FFFFFF',cb:'#C04808',cbo:.28,ci:'#C04808',cio:.14,qf:'#C04808',qb:'#FFFFFF',qbo:.9,qi:'#FFFFFF',qio:.45,sh:'rgba(80,20,4,.1)'},
+         D:{bg:'#120600',cf:'#1E0C00',cb:'#E46820',cbo:.45,ci:'#E46820',cio:.22,qf:'#E46820',qb:'#FFFFFF',qbo:.9,qi:'#FFE0C0',qio:.45,sh:'rgba(220,100,30,.18)'}},
+  sage:{L:{bg:'#EDF9F2',cf:'#FFFFFF',cb:'#166534',cbo:.28,ci:'#166534',cio:.14,qf:'#166534',qb:'#FFFFFF',qbo:.9,qi:'#FFFFFF',qio:.45,sh:'rgba(8,40,16,.1)'},
+        D:{bg:'#020B05',cf:'#071408',cb:'#24CC6E',cbo:.45,ci:'#24CC6E',cio:.22,qf:'#24CC6E',qb:'#020B05',qbo:.9,qi:'#C0F0D4',qio:.45,sh:'rgba(36,200,110,.18)'}},
+  void:{L:{bg:'#F4F4F0',cf:'#FFFFFF',cb:'#141414',cbo:.36,ci:'#141414',cio:.18,qf:'#141414',qb:'#FFFFFF',qbo:.9,qi:'#FFFFFF',qio:.45,sh:'rgba(0,0,0,.1)'},
+        D:{bg:'#060606',cf:'#101010',cb:'#D6D6D6',cbo:.44,ci:'#D6D6D6',cio:.18,qf:'#D6D6D6',qb:'#060606',qbo:.9,qi:'#060606',qio:.45,sh:'rgba(200,200,200,.08)'}},
+  violet:{L:{bg:'#F4EDFF',cf:'#FFFFFF',cb:'#601EC8',cbo:.28,ci:'#601EC8',cio:.14,qf:'#601EC8',qb:'#FFFFFF',qbo:.9,qi:'#FFFFFF',qio:.45,sh:'rgba(40,8,80,.1)'},
+          D:{bg:'#080214',cf:'#11081E',cb:'#9A4EF6',cbo:.45,ci:'#9A4EF6',cio:.22,qf:'#9A4EF6',qb:'#FFFFFF',qbo:.9,qi:'#DCC8FF',qio:.45,sh:'rgba(154,78,246,.18)'}}
+};
+
+let curT='cobalt', curM='light';
+
+function buildMark(t,m,size){
+  const c=CT[t][m==='light'?'L':'D'];
+  const n=12,qi=4,qE=32,qXR=8;
+  const cx=size/2,cy=size/2,r=size*.225,cw=size*.082,ch=size*.12,crx=size*.014;
+  const hw=cw/2,hh=ch/2;
+  let cards=[];
+  for(let i=0;i<n;i++){
+    const th=i*2*Math.PI/n,isQ=i===qi;
+    const rad=r+(isQ?qE:0);
+    cards.push({x:cx+rad*Math.sin(th),y:cy-rad*Math.cos(th),rot:i*30+(isQ?qXR:0),isQ});
+  }
+  const ord=[...cards.filter(x=>!x.isQ),...cards.filter(x=>x.isQ)];
+  let s=`<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">`;
+  s+=`<rect width="${size}" height="${size}" fill="${c.bg}"/>`;
+  for(const d of ord){
+    const ff=d.isQ?c.qf:c.cf,bs=d.isQ?c.qb:c.cb,bso=d.isQ?c.qbo:c.cbo;
+    const ifs=d.isQ?c.qi:c.ci,ifso=d.isQ?c.qio:c.cio;
+    s+=`<g transform="translate(${d.x.toFixed(1)},${d.y.toFixed(1)}) rotate(${d.rot})">`;
+    s+=`<rect x="${(-hw+.8).toFixed(1)}" y="${(-hh+1.4).toFixed(1)}" width="${cw}" height="${ch}" rx="${crx}" fill="${c.sh}"/>`;
+    s+=`<rect x="${-hw.toFixed(1)}" y="${-hh.toFixed(1)}" width="${cw}" height="${ch}" rx="${crx}" fill="${ff}" stroke="${bs}" stroke-width="1.4" stroke-opacity="${bso}"/>`;
+    s+=`<rect x="${(-hw+3.5).toFixed(1)}" y="${(-hh+4).toFixed(1)}" width="${(cw-7)}" height="${(ch-8)}" rx="2" fill="none" stroke="${ifs}" stroke-width=".8" stroke-opacity="${ifso}"/>`;
+    s+=`</g>`;
+  }
+  s+=`</svg>`;
+  return s;
+}
+
+function updateMark(){
+  const el=document.getElementById('cover-mark');
+  if(el) el.innerHTML=buildMark(curT,curM,340);
+}
+
+/* ── NAV ── */
+function buildDots(){
+  const c=document.getElementById('dots');
+  c.innerHTML='';
+  for(let i=0;i<TOTAL;i++){
+    const d=document.createElement('div');
+    d.className='ndot'+(i===cur?' on':'');
+    d.onclick=()=>goTo(i);
+    c.appendChild(d);
+  }
+}
+
+function goTo(n,dir){
+  if(n<0||n>=TOTAL) return;
+  const slides=document.querySelectorAll('.slide');
+  const prev=cur;
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('out-up');
+  setTimeout(()=>slides[prev].classList.remove('out-up'),500);
+  cur=n;
+  slides[cur].classList.add('active');
+  document.getElementById('slbl').textContent=`${cur+1} / ${TOTAL}`;
+  document.getElementById('pbar').style.width=`${((cur+1)/TOTAL)*100}%`;
+  buildDots();
+}
+
+function next(){goTo(cur+1)}
+function prev(){goTo(cur-1)}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') next();
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') prev();
+});
+
+/* ── THEME / MODE ── */
+function setT(t,btn){
+  curT=t;
+  document.documentElement.setAttribute('data-t',t);
+  document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  updateMark();
+}
+function toggleM(){
+  curM=curM==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-m',curM);
+  document.getElementById('mlbl').textContent=curM==='light'?'Light':'Dark';
+  updateMark();
+}
+
+updateMark();
+buildDots();
+</script>
+</body>
+</html>
